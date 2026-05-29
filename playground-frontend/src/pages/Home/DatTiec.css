@@ -1,0 +1,127 @@
+.booking-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #f8f9fc;
+  min-height: calc(100vh - 80px); /* Trừ đi chiều cao header nếu có */
+  font-family: 'Nunito', sans-serif;
+}
+
+.booking-card {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 500px;
+}
+
+.booking-title {
+  text-align: center;
+  color: #4e73df;
+  margin-bottom: 25px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #5a5c69;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d1d3e2;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Phần mã giảm giá */
+.promo-input-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.apply-btn {
+  background-color: #36b9cc;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.apply-btn:hover {
+  background-color: #2c9faf;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px dashed #d1d3e2;
+  margin: 25px 0;
+}
+
+/* Khu vực tính tiền */
+.price-summary {
+  background-color: #f8f9fc;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  color: #5a5c69;
+}
+
+.discount-row {
+  color: #e74a3b;
+}
+
+.total-row {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #1cc88a;
+  margin-top: 15px;
+  border-top: 1px solid #e3e6f0;
+  padding-top: 15px;
+}
+
+/* Nút Submit */
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #224abe;
+}

@@ -1,0 +1,105 @@
+.voucher-container {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Nunito', sans-serif;
+}
+
+.voucher-title {
+  text-align: center;
+  color: #4e73df;
+  margin-bottom: 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.voucher-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+/* Thẻ Voucher tổng thể */
+.voucher-card {
+  display: flex;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.voucher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Nửa bên trái - Màu xanh */
+.voucher-left {
+  flex: 6;
+  padding: 20px;
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: white;
+  /* Tạo hiệu ứng đường đứt khúc giống vé xé */
+  border-right: 3px dashed #f8f9fc; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.voucher-left h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.voucher-left p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+}
+
+/* Nửa bên phải - Nút copy */
+.voucher-right {
+  flex: 4;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fc;
+}
+
+.voucher-code {
+  font-weight: 800;
+  color: #e74a3b; /* Màu đỏ nổi bật */
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.voucher-exp {
+  font-size: 0.75rem;
+  color: #858796;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.copy-btn {
+  background-color: #1cc88a;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(28, 200, 138, 0.3);
+}
+
+.copy-btn:hover {
+  background-color: #17a673;
+  transform: scale(1.05);
+}

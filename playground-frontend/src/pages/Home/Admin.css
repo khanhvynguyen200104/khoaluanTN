@@ -1,0 +1,93 @@
+/* Cấu hình màu chủ đạo */
+:root {
+  --primary-color: #4e73df;
+  --secondary-color: #858796;
+  --success-color: #1cc88a;
+  --info-color: #36b9cc;
+  --warning-color: #f6c23e;
+}
+
+body {
+  background-color: #f8f9fc;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+/* KHU VỰC MENU TRÁI (SIDEBAR) */
+.sidebar {
+  background: linear-gradient(180deg, var(--primary-color) 10%, #224abe 100%);
+  min-height: 100vh;
+  color: white;
+  transition: all 0.3s;
+}
+
+.sidebar-brand {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 5px 15px;
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-link.active {
+  background-color: white;
+  color: var(--primary-color) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* KHU VỰC THẺ THỐNG KÊ (CARD) */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: 1px solid #e3e6f0;
+  padding: 15px 20px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.text-xs {
+  font-size: .7rem;
+}
+
+/* Đường viền màu ở mép trái của các Card thống kê */
+.border-left-primary { border-left: .25rem solid var(--primary-color) !important; }
+.border-left-success { border-left: .25rem solid var(--success-color) !important; }
+.border-left-info { border-left: .25rem solid var(--info-color) !important; }
+.border-left-warning { border-left: .25rem solid var(--warning-color) !important; }
+
+/* Làm gọn bảng */
+.table {
+  font-size: 0.95rem;
+}
