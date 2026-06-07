@@ -26,10 +26,8 @@ const DashboardTab = () => {
     const [filterStats, setFilterStats] = useState(null);
     const [filterLoading, setFilterLoading] = useState(false);
     
-    // State cho dự đoán khách AI
-    const [forecast, setForecast] = useState(null);
+    // State cho dự đoán khách AI (Chỉ giữ lại dự đoán tuần)
     const [forecastWeek, setForecastWeek] = useState(null);
-    const [loadingForecast, setLoadingForecast] = useState(false);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -140,31 +138,6 @@ const DashboardTab = () => {
         }
     };
 
-    const loadForecast = async () => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const token = user?.token;
-        if (!token) return;
-
-        setLoadingForecast(true);
-        try {
-            const res = await fetch('http://localhost:8081/api/admin/dashboard/forecast/next-day', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setForecast(data);
-            }
-        } catch (err) {
-            console.error('Lỗi tải dự đoán:', err);
-        } finally {
-            setLoadingForecast(false);
-        }
-    };
-
     const loadForecastWeek = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = user?.token;
@@ -188,7 +161,6 @@ const DashboardTab = () => {
     };
 
     useEffect(() => {
-        loadForecast();
         loadForecastWeek();
     }, []);
 
@@ -419,7 +391,7 @@ const DashboardTab = () => {
             </div>
 
             {/* =========================================================
-                HÀNG 2: KHU VỰC BIỂU ĐỒ (ĐÃ ĐƯỢC ĐẨY LÊN TRÊN)
+                HÀNG 2: KHU VỰC BIỂU ĐỒ
             ========================================================= */}
             <div className="row mb-4">
                 <div className="col-lg-6 mb-4">
@@ -448,76 +420,6 @@ const DashboardTab = () => {
                     </div>
                 </div>
             </div>
-
-            {/* =========================================================
-                HÀNG 3: DỰ ĐOÁN AI (ĐÃ ĐƯỢC HẠ XUỐNG DƯỚI CÙNG)
-            ========================================================= */}
-            {forecast && (
-                <div className="card shadow-sm mb-4 border-0" style={{ borderRadius: '12px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-                    <div className="card-header text-white py-3" style={{ borderRadius: '12px 12px 0 0', background: 'transparent', borderBottom: '2px solid rgba(255,255,255,0.3)' }}>
-                        <h6 className="m-0 fw-bold"><i className="bi bi-robot me-2"></i>Dự Đoán Lượng Khách (AI)</h6>
-                    </div>
-                    <div className="card-body">
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <div className="p-4 bg-white rounded-4 shadow-sm h-100">
-                                    <div className="d-flex justify-content-between align-items-start mb-3">
-                                        <div>
-                                            <div className="small fw-bold text-muted text-uppercase mb-1">Ngày Hôm Sau</div>
-                                            <div className="h4 fw-bold text-dark mb-2">{forecast.ngayDuKien}</div>
-                                            <div className="small text-secondary">
-                                                <span className="badge bg-info me-2">{forecast.thuTrongTuan}</span>
-                                                <span className="badge bg-secondary">
-                                                    {forecast.loaiNgay === 'holiday' ? '🎉 Ngày Lễ' : forecast.loaiNgay === 'weekend' ? '🎊 Cuối Tuần' : '📅 Ngày Thường'}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr className="my-3 border-light" />
-                                    <div className="mb-3">
-                                        <div className="small fw-bold text-primary text-uppercase mb-2">👥 Dự Đoán Khách</div>
-                                        <div className="display-6 fw-bold text-danger">{forecast.soKhachDuKien}</div>
-                                        <small className="text-muted">Khoảng tin: {forecast.khoangTin} khách</small>
-                                    </div>
-                                    <div className="bg-light p-3 rounded-3 small text-muted">
-                                        <strong>💡 Lý do:</strong> {forecast.lyDo}
-                                    </div>
-                                    <div className="mt-3 text-end">
-                                        <small className="text-muted fst-italic">Độ chính xác: {forecast.doChinhXac}</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* DỰ ĐOÁN CẢ TUẦN TỚI */}
-                            {forecastWeek && (
-                                <div className="col-md-6 mb-3">
-                                    <div className="p-4 bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
-                                        <div className="small fw-bold text-muted text-uppercase mb-3">📊 Dự Đoán Cả Tuần Tới</div>
-                                        <div className="table-responsive flex-grow-1" style={{ maxHeight: '220px', overflowY: 'auto' }}>
-                                            <table className="table table-sm table-hover mb-0">
-                                                <tbody>
-                                                    {Object.entries(forecastWeek).map(([day, guests], idx) => (
-                                                        <tr key={idx}>
-                                                            <td className="small fw-bold text-dark align-middle py-2">{day}</td>
-                                                            <td className="text-end py-2">
-                                                                <span className="badge bg-primary px-3 py-2 rounded-pill">{guests} khách</span>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <hr className="my-3 border-light" />
-                                        <small className="text-muted mt-auto">
-                                            <i className="bi bi-info-circle me-1"></i> Dự đoán dựa trên dữ liệu lịch sử, loại ngày và ML.
-                                        </small>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

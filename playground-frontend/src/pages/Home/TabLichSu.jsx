@@ -45,7 +45,13 @@ const TabLichSu = ({ lichSuBanHang }) => {
                                 <td>{donHang.ngayMua ? new Date(donHang.ngayMua).toLocaleString('vi-VN') : 'Vừa xong'}</td>
                                 <td className="fw-bold">{donHang.soDienThoaiKhach || donHang.nguoiMua || 'Khách lẻ'}</td>
                                 <td>
-                                    {donHang.loaiGiaoDich === 'MUA_VE' ? <span className="badge bg-primary">Mua Vé</span> : donHang.loaiGiaoDich === 'MUA_VE + AN_UONG' ? <span className="badge bg-info text-dark">Vé & Đồ ăn</span> : <span className="badge bg-warning text-dark">Ăn Uống</span>}
+                                    {donHang.loaiGiaoDich?.toUpperCase().includes('MUA_VE') ? (
+                                        donHang.loaiGiaoDich?.toUpperCase().includes('AN_UONG') ? <span className="badge bg-info text-dark">Vé & Đồ ăn</span> : <span className="badge bg-primary">Mua Vé</span>
+                                    ) : donHang.loaiGiaoDich?.toUpperCase().includes('AN_UONG') ? (
+                                        <span className="badge bg-warning text-dark">Ăn Uống</span>
+                                    ) : (
+                                        <span className="badge bg-secondary">Không rõ</span>
+                                    )}
                                 </td>
                                 <td>{donHang.phuongThucThanhToan === 'CHUYEN_KHOAN' ? <span className="badge bg-info text-dark">Chuyển khoản</span> : <span className="badge bg-success">Tiền mặt</span>}</td>
                                 <td className="text-danger fw-bold">{donHang.tongTien ? donHang.tongTien.toLocaleString() : '0'} đ</td>
@@ -80,7 +86,7 @@ const TabLichSu = ({ lichSuBanHang }) => {
                         <div className="mb-2 d-flex justify-content-between"><span className="text-muted">Ngày giao dịch:</span><span>{donHangChiTiet.ngayMua ? new Date(donHangChiTiet.ngayMua).toLocaleString('vi-VN') : ''}</span></div>
                         <div className="mb-2 d-flex justify-content-between"><span className="text-muted">Phương thức:</span><span>{donHangChiTiet.phuongThucThanhToan === 'CHUYEN_KHOAN' ? 'Chuyển khoản' : 'Tiền mặt'}</span></div>
                         
-                        {(donHangChiTiet.loaiGiaoDich === 'MUA_VE' || donHangChiTiet.loaiGiaoDich === 'MUA_VE + AN_UONG' || donHangChiTiet.loaiVe) && (
+                        {(donHangChiTiet.loaiGiaoDich?.toUpperCase().includes('MUA_VE') || donHangChiTiet.loaiVe) && (
                             <div className="bg-light p-3 rounded mt-3 mb-3 border">
                                 <div className="mb-2"><strong>Loại vé:</strong> {donHangChiTiet.loaiVe || 'N/A'}</div>
                                 {donHangChiTiet.maVe && (

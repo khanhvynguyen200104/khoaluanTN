@@ -306,7 +306,7 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
                 setSuccessMessage("Giao dịch thành công! Đã lưu vào lịch sử hệ thống.");
                 setShowSuccessMessage(true);
                 setTimeout(() => setShowSuccessMessage(false), 3000);
-                hoanTatVaReset();
+                await hoanTatVaReset();
             } else {
                 alert("Lỗi khi lưu hóa đơn: " + (data.loi || data.error || 'Yêu cầu bị từ chối'));
             }
@@ -318,12 +318,18 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
         }
     };
 
-    const hoanTatVaReset = () => {
+    const hoanTatVaReset = async () => {
         setSdtPhuHuynh('');
         setMenu(prev => prev.map(item => ({ ...item, soLuong: 0 }))); // Reset giỏ hàng
         setSoDienThoai('');
         setKhachHang(null);
-        if(onSaleSuccess) onSaleSuccess(); // Load lại lịch sử ở tab bên kia
+        if (typeof onSaleSuccess === 'function') {
+            try {
+                await onSaleSuccess(); // Load lại lịch sử ở tab bên kia
+            } catch (e) {
+                console.error('onSaleSuccess callback error', e);
+            }
+        }
     };
 
     // Đổi vé online
@@ -332,9 +338,12 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
         if (!maVeOnline || maVeOnline.trim() === '') {
             return alert("Vui lòng nhập mã vé để tìm kiếm!");
         }
+
+        const maVeChuoi = maVeOnline.trim().replace(/^#+/, '').toUpperCase();
+
         try {
             // Gọi API sang Backend để tìm mã vé
-            const res = await fetch(`http://localhost:8081/api/pos/ve-online?maVe=${maVeOnline.trim()}`, {
+            const res = await fetch(`http://localhost:8081/api/pos/ve-online?maVe=${encodeURIComponent(maVeChuoi)}`, {
                 headers: buildHeaders()
             });
             if (res.ok) {
@@ -384,7 +393,11 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
             setMaVeOnline('');
             setThongTinVeOnline(null);
             if (typeof onSaleSuccess === 'function') {
-                try { onSaleSuccess(); } catch (e) { console.error('onSaleSuccess callback error', e); }
+                try {
+                    await onSaleSuccess();
+                } catch (e) {
+                    console.error('onSaleSuccess callback error', e);
+                }
             }
         } catch (error) {
             console.error('Lỗi xuất vé online:', error);

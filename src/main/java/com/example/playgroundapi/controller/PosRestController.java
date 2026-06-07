@@ -43,6 +43,13 @@ public class PosRestController {
     @Autowired
     private NguoiDungRepository nguoiDungRepository; 
 
+    private String normalizeMaVe(String maVe) {
+        if (maVe == null) {
+            return null;
+        }
+        return maVe.trim().replaceAll("^#+", "").toUpperCase();
+    }
+
     // ==========================================
     // API 1: LẤY DANH SÁCH MÓN ĂN TỪ SQL
     // ==========================================
@@ -166,7 +173,7 @@ public class PosRestController {
                     nd.setTongChiTieu(chiTieuMoi);
                     
                     // Auto cập nhật hạng thành viên
-                    if (chiTieuMoi >= 4000000) { 
+                    if (chiTieuMoi >= 3000000) { 
                         nd.setHangThanhVien("DIAMOND");
                     } else if (chiTieuMoi >= 1000000) { 
                         nd.setHangThanhVien("GOLD");    
@@ -229,9 +236,10 @@ public class PosRestController {
     @GetMapping("/ve-online")
     public ResponseEntity<?> timVeOnline(@RequestParam String maVe) {
         try {
+            String maVeTrim = normalizeMaVe(maVe);
             // Tìm hóa đơn dựa trên mã vé
-            HoaDon hd = hoaDonRepository.findByMaVe(maVe);
-            MuaVe ve = muaVeRepository.findByMaVe(maVe);
+            HoaDon hd = hoaDonRepository.findByMaVe(maVeTrim);
+            MuaVe ve = muaVeRepository.findByMaVe(maVeTrim);
 
             String soDienThoaiTuNguoiDung = "";
             if (hd != null && hd.getNguoiMua() != null && !hd.getNguoiMua().trim().isEmpty()) {
@@ -287,7 +295,7 @@ public class PosRestController {
                 return ResponseEntity.badRequest().body(Map.of("loi", "Thiếu mã vé!"));
             }
 
-            String maVeTrim = maVe.trim();
+            String maVeTrim = normalizeMaVe(maVe);
             HoaDon hd = hoaDonRepository.findByMaVe(maVeTrim);
             MuaVe ve = muaVeRepository.findByMaVe(maVeTrim);
 
@@ -357,8 +365,9 @@ public class PosRestController {
             String maVe = payload.get("maVe");
             String maVongTay = payload.get("maVongTay");
 
+            String maVeTrim = normalizeMaVe(maVe);
             // Tìm hóa đơn bằng mã vé
-            HoaDon hd = hoaDonRepository.findByMaVe(maVe);
+            HoaDon hd = hoaDonRepository.findByMaVe(maVeTrim);
             
             if (hd != null) {
                 hd.setMaVongTay(maVongTay); // Cập nhật mã vòng tay mới
@@ -380,8 +389,9 @@ public class PosRestController {
         try {
             String maVe = payload.get("maVe");
             
+            String maVeTrim = normalizeMaVe(maVe);
             // Tìm hóa đơn bằng mã vé
-            HoaDon hd = hoaDonRepository.findByMaVe(maVe);
+            HoaDon hd = hoaDonRepository.findByMaVe(maVeTrim);
             
             if (hd != null) {
                 hd.setGioKhachVe(LocalDateTime.now()); // Lưu giờ ra hiện tại
