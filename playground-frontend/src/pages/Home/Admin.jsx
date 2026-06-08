@@ -38,14 +38,8 @@ const Admin = () => {
 
     return (
         <div className="d-flex" style={{ minHeight: '100vh', backgroundColor: '#f8f9fc' }}>
-            
-            {/* =========================================
-                CỘT TRÁI: SIDEBAR MENU 
-            ========================================= */}
             <div className={`bg-white shadow-sm d-flex flex-column transition-all ${isSidebarOpen ? 'px-3 pt-3' : 'px-0 pt-3'}`} 
                  style={{ width: isSidebarOpen ? '260px' : '0px', overflow: 'hidden', whiteSpace: 'nowrap', transition: 'width 0.3s ease' }}>
-                
-                {/* Logo thương hiệu */}
                 <div className="d-flex align-items-center justify-content-center mb-4 mt-2">
                     <h4 className="fw-bold m-0 text-primary" style={{ letterSpacing: '1px' }}>⚙️ NEWWORLD</h4>
                 </div>
@@ -66,7 +60,7 @@ const Admin = () => {
                     ))}
                 </ul>
 
-                {/* Nút Đăng Xuất (mt-auto đẩy nó xuống dưới cùng) */}
+                {/* Nút Đăng Xuất */}
                 <div className="mt-auto mb-4 w-100">
                     <hr className="text-secondary" />
                     <Link to="/dang-nhap" className="btn btn-outline-danger w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style={{ borderRadius: '10px', padding: '10px' }}>
@@ -75,10 +69,6 @@ const Admin = () => {
                 </div>
             </div>
 
-
-            {/* =========================================
-                CỘT PHẢI: NỘI DUNG CHÍNH
-            ========================================= */}
             <div className="flex-grow-1 d-flex flex-column" style={{ overflowX: 'hidden' }}>
                 
                 {/* Thanh Topbar ở trên cùng */}

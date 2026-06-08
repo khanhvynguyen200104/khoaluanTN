@@ -100,24 +100,28 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
                     giaNguoiLon: Number(data.giaNguoiLon) || 20000
                 };
                 setGiaVe(giaVeMoi);
+                
                 setMenu(prev => {
                     const doAnHienTai = prev.filter(item => item.loai === 'DO_AN');
+                    
+                    // LẤY LẠI SỐ LƯỢNG VÉ HIỆN TẠI ĐỂ KHÔNG BỊ XÓA VỀ 0
+                    const soLuongCombo = prev.find(item => item.id === 've_combo')?.soLuong || 0;
+                    const soLuongNguoiLon = prev.find(item => item.id === 've_nguoilon')?.soLuong || 0;
+
                     return [
-                        { id: 've_combo', ten: 'Vé Combo', icon: '👨‍👩‍👦', gia: giaVeMoi.giaCombo, loai: 'VE', soLuong: 0 },
-                        { id: 've_nguoilon', ten: 'Vé Phụ huynh', icon: '🚶‍♂️', gia: giaVeMoi.giaNguoiLon, loai: 'VE', soLuong: 0 },
+                        { id: 've_combo', ten: 'Vé Combo', icon: '👨‍👩‍👦', gia: giaVeMoi.giaCombo, loai: 'VE', soLuong: soLuongCombo },
+                        { id: 've_nguoilon', ten: 'Vé Phụ huynh', icon: '🚶‍♂️', gia: giaVeMoi.giaNguoiLon, loai: 'VE', soLuong: soLuongNguoiLon },
                         ...doAnHienTai
                     ];
                 });
             }
         } catch (error) {
             console.error('Không tải được giá vé:', error);
-            setMenu(prev => {
-                if (prev.length > 0) return prev;
-                return [
-                    { id: 've_combo', ten: 'Vé Combo', icon: '👨‍👩‍👦', gia: 100000, loai: 'VE', soLuong: 0 },
-                    { id: 've_nguoilon', ten: 'Vé Phụ huynh', icon: '🚶‍♂️', gia: 20000, loai: 'VE', soLuong: 0 }
-                ];
-            });
+            // Giữ nguyên trạng thái nếu lỗi mạng
+            setMenu(prev => prev.length > 0 ? prev : [
+                { id: 've_combo', ten: 'Vé Combo', icon: '👨‍👩‍👦', gia: 100000, loai: 'VE', soLuong: 0 },
+                { id: 've_nguoilon', ten: 'Vé Phụ huynh', icon: '🚶‍♂️', gia: 20000, loai: 'VE', soLuong: 0 }
+            ]);
         }
     };
 
@@ -271,21 +275,19 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
                 veNguoiLon: menu.find(i => i.id === 've_nguoilon')?.soLuong || 0,
                 tongSoVe: tongVeTraCuu, 
                 
-                // Bao vây 2 trường hợp tên biến giá tiền mà Backend có thể cần
                 chiTietHoaDon: menu.filter(item => item.soLuong > 0).map(item => ({ 
                     id: item.id, 
                     ten: item.ten, 
                     gia: item.gia, 
-                    donGia: item.gia, // Thêm backup
+                    donGia: item.gia, 
                     soLuong: item.soLuong, 
                     loai: item.loai 
                 })), 
                 
-                // Bao vây 2 trường hợp tên biến tổng tiền mà Backend có thể cần
                 tongTienGoc: tongGoc,
-                tongTien: tongThanhToan,       // Nếu Backend mong đợi 'tongTien'
-                tongThanhToan: tongThanhToan,  // Nếu Backend mong đợi 'tongThanhToan'
-                thanhTien: tongThanhToan,      // Backup thêm cho chắc chắn
+                tongTien: tongThanhToan,       
+                tongThanhToan: tongThanhToan,  
+                thanhTien: tongThanhToan,      
                 
                 maGiamGia: maGiamGia, 
                 nhanVienThuNgan: nhanVien.ten,
@@ -294,7 +296,9 @@ const TabPos = ({ nhanVien, onSaleSuccess }) => {
                 maVongTay: maVongTayMoi || null
             };
 
-            const res = await fetch('http://localhost:8081/api/pos/thanh-toan', {
+            // THAY ĐỔI Ở DÒNG NÀY: Thêm ?totalAmount=${tongThanhToan} vào URL
+            const urlThanhToan = 'http://localhost:8081/api/pos/thanh-toan?totalAmount=' + tongThanhToan;
+            const res = await fetch(urlThanhToan, {
                 method: 'POST',
                 headers: buildHeaders(true),
                 body: JSON.stringify(payload)

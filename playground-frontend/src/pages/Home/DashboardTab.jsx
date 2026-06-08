@@ -235,9 +235,6 @@ const DashboardTab = () => {
 
     return (
         <div>
-            {/* =========================================================
-                HEADER VÀ THANH LỌC (FILTER) GIAO DIỆN MỚI
-            ========================================================= */}
             <div className="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center mb-4 gap-3">
                 <h3 className="fw-bold text-dark m-0" style={{ letterSpacing: '-0.5px' }}>Báo cáo thống kê</h3>
                 
@@ -337,9 +334,7 @@ const DashboardTab = () => {
                 </div>
             )}
 
-            {/* =========================================================
-                HÀNG 1: THỐNG KÊ TÀI CHÍNH (GỌN GÀNG 3 THẺ)
-            ========================================================= */}
+            {/* THỐNG KÊ TÀI CHÍNH */}
             <div className="row mb-4">
                 <div className="col-md-4 mb-4">
                     <div className="card shadow-sm h-100 py-2 border-left-primary" style={{ borderLeft: '4px solid #4e73df', borderRadius: '12px' }}>
@@ -390,9 +385,7 @@ const DashboardTab = () => {
                 </div>
             </div>
 
-            {/* =========================================================
-                HÀNG 2: KHU VỰC BIỂU ĐỒ
-            ========================================================= */}
+            {/*HÀNG 2: KHU VỰC BIỂU ĐỒ*/}
             <div className="row mb-4">
                 <div className="col-lg-6 mb-4">
                     <div className="card shadow-sm h-100 border-0 rounded-4">
